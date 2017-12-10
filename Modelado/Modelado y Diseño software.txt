@@ -1,0 +1,33 @@
+-modificar modelo izquierda diapostivas pag 46
+   -> evitar que pueda ser padre de si mismo
+
+- ejercicios pagina 53 (para el lunes?)
+
+
+
+
+
+como hacer que una persona no pueda ser padre de si misma:
+
+context Persona inv noCycles:
+    self.hijo -> excludes(self)
+
+
+
+
+modelo = TC (teoria de cojuntos) = FOL
+[los = son de tres rayas _=]
+
+class Persona
+hijo.persona -> persona
+padre.persona -> persona
+
+context persona inv:
+    self.padre->size()<=2
+
+========================================================================================
+a la hora de modelar, tomar ejemplos de sistemas válidos y ejemplos no válidos, para
+así darnos cuenta de mas restricciones
+
+
+

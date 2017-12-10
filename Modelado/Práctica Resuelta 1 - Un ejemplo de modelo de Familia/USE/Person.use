@@ -1,0 +1,13 @@
+model Person
+
+class Person
+attributes
+  name : String
+  age : Integer
+end
+
+association Family between
+  Person[1] role father
+  Person[1] role mother
+  Person[*] role child
+end

@@ -1,0 +1,54 @@
+model Family
+
+enum Gender {female, male}
+
+class Person
+attributes
+  name : String
+  age : Integer
+  gender : Gender
+end
+
+class Family
+attributes
+  surname : String
+end
+
+association Fatherhood between
+  Person[0..1] role father
+  Family[0..1] role fatherFamily
+end
+
+association Motherhood between
+  Person[0..1] role mother
+  Family[0..1] role motherFamily
+end
+
+association Childhood between
+  Person[0..*] role child
+  Family[0..1] role childFamily
+end
+
+constraints
+
+context Person inv FatherOrMother:
+   self.fatherFamily->size() + self.motherFamily->size() <=1
+
+context Person inv NotWOFamily:
+  self.fatherFamily->size() + self.motherFamily->size() + self.childFamily->size() > 0
+
+context Family inv AtLeastOneMember:
+    self.father->size() + self.mother->size() + self.child->size() > 0
+
+context Family inv childrenOlderThanParents:
+  self.child->forAll(c|(self.father->notEmpty implies self.father.age>c.age) and (self.mother->notEmpty implies self.mother.age>c.age))    
+
+context Family inv Traditional: 
+   (self.father->notEmpty implies self.father.gender=Gender::male) and
+   (self.mother->notEmpty implies self.mother.gender=Gender::female)
+
+context Family inv UniqueNamesWithinAFamily:
+   let members : Set(Person) = Set{}->union(self.child)
+                                    ->including(self.father)
+                                    ->including(self.mother)->excluding(Undefined) 
+   in (members->collect(name)->asSet()->size()) = (members->size())

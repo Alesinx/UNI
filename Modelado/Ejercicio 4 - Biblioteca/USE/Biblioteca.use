@@ -1,0 +1,37 @@
+model Biblioteca
+
+class Biblioteca
+end
+
+class Usuario
+
+end
+
+class Prestamo
+end
+
+class Articulo
+end
+
+class Libro < Articulo
+end
+
+class Revista < Articulo
+end  
+
+association Prestar between
+	Usuario [1] role pidePrestado
+	Prestamo [*] role prestamosAsociado
+end
+association PrestarArticulo between
+	Articulo [1..*] role objetoPrestado
+	Prestamo [1]
+end
+association prestamosDeBiblioteca between
+	Biblioteca [1] role ofrece
+	Prestamo [0..*] 
+end
+
+
+
+

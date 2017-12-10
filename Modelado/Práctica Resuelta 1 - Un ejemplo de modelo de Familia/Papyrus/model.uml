@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_PbTjQInwEeab18FrkH3UfA" name="RootElement">
+  <ownedRule xmi:type="uml:Constraint" xmi:id="_4GD9sIpIEeab18FrkH3UfA" name="ChildrenOlderThanParents">
+    <specification xmi:type="uml:LiteralString" xmi:id="_4GFL0IpIEeab18FrkH3UfA" name="constraintSpec" value="self.child->forAll(c|self.father->notEmpty implies self.father.age>c.age and  self.mother->notEmpty implies self.mother.age>c.age)"/>
+  </ownedRule>
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_PqE_EInwEeab18FrkH3UfA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_RsJkgInwEeab18FrkH3UfA" name="Person">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_EN6VwIpIEeab18FrkH3UfA" name="FatherOrMother">
+      <specification xmi:type="uml:LiteralString" xmi:id="_EODfsIpIEeab18FrkH3UfA" name="constraintSpec" value="(self.fatherFamily->size() + self.motherFamily->size()) &lt;= 1"/>
+    </ownedRule>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_XotpkInwEeab18FrkH3UfA" name="age">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EInt"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_OhTGkIpHEeab18FrkH3UfA" name="name">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_7D3BAIpHEeab18FrkH3UfA" name="gender" type="_TiZo8IpHEeab18FrkH3UfA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8PMzYInyEeab18FrkH3UfA" name="Family">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_qOUKwIpIEeab18FrkH3UfA" name="AlLeastOneMember">
+      <specification xmi:type="uml:LiteralString" xmi:id="_qOUx0IpIEeab18FrkH3UfA" name="constraintSpec" value="self.father->size() + self.mother->size() + self.child->size() > 0"/>
+    </ownedRule>
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_DbxRsIpJEeab18FrkH3UfA" name="Traditional">
+      <specification xmi:type="uml:LiteralString" xmi:id="_Dbx4wIpJEeab18FrkH3UfA" name="constraintSpec" value="(self.father->notEmpty implies self.father.gender=Gender::male) and&#xD;&#xA;   (self.mother->notEmpty implies self.mother.gender=Gender::female)&#xD;&#xA;"/>
+    </ownedRule>
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_bPIZMIpJEeab18FrkH3UfA" name="UniqueNamesWithinAFamily">
+      <specification xmi:type="uml:LiteralString" xmi:id="_bPJAQIpJEeab18FrkH3UfA" name="ConstraintSpec" value="let members : Set(Person) = Set{}->union(self.child)->including(self.father)>excluding(Undefined) &#xD;&#xA;in members->collect(name)->asSet()->size() = members->size()"/>
+    </ownedRule>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_EV1jUInzEeab18FrkH3UfA" name="father" type="_RsJkgInwEeab18FrkH3UfA" association="_EVwDwInzEeab18FrkH3UfA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PEHq8InzEeab18FrkH3UfA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PESDAInzEeab18FrkH3UfA" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_TkrsEInzEeab18FrkH3UfA" name="mother" type="_RsJkgInwEeab18FrkH3UfA" association="_Tkqd8InzEeab18FrkH3UfA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_a9gTwInzEeab18FrkH3UfA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_a9maYInzEeab18FrkH3UfA" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_k6ycQInzEeab18FrkH3UfA" name="child" type="_RsJkgInwEeab18FrkH3UfA" association="_k6ux4InzEeab18FrkH3UfA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_s20esInzEeab18FrkH3UfA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_s25-QInzEeab18FrkH3UfA" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_2RhI0IpGEeab18FrkH3UfA" name="surname">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_EVwDwInzEeab18FrkH3UfA" name="Fatherhood" memberEnd="_EV1jUInzEeab18FrkH3UfA _EV3YgInzEeab18FrkH3UfA" navigableOwnedEnd="_EV3YgInzEeab18FrkH3UfA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_EVzuIInzEeab18FrkH3UfA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_EVzuIYnzEeab18FrkH3UfA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_EV3YgInzEeab18FrkH3UfA" name="fatherFamily" type="_8PMzYInyEeab18FrkH3UfA" association="_EVwDwInzEeab18FrkH3UfA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P2_5YInzEeab18FrkH3UfA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P3IcQInzEeab18FrkH3UfA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Tkqd8InzEeab18FrkH3UfA" name="Motherhood" memberEnd="_TkrsEInzEeab18FrkH3UfA _TkrsEYnzEeab18FrkH3UfA" navigableOwnedEnd="_TkrsEYnzEeab18FrkH3UfA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_TkrFAInzEeab18FrkH3UfA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_TkrFAYnzEeab18FrkH3UfA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_TkrsEYnzEeab18FrkH3UfA" name="motherFamily" type="_8PMzYInyEeab18FrkH3UfA" association="_Tkqd8InzEeab18FrkH3UfA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bq2h8InzEeab18FrkH3UfA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bq9PoInzEeab18FrkH3UfA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_k6ux4InzEeab18FrkH3UfA" name="Childhood" memberEnd="_k6ycQInzEeab18FrkH3UfA _k6zDUInzEeab18FrkH3UfA" navigableOwnedEnd="_k6zDUInzEeab18FrkH3UfA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_k6xOIInzEeab18FrkH3UfA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_k6x1MInzEeab18FrkH3UfA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_k6zDUInzEeab18FrkH3UfA" name="childFamily" type="_8PMzYInyEeab18FrkH3UfA" association="_k6ux4InzEeab18FrkH3UfA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zU58cInzEeab18FrkH3UfA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zVAqIInzEeab18FrkH3UfA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_TiZo8IpHEeab18FrkH3UfA" name="Gender">
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_UmbRwIpHEeab18FrkH3UfA" name="male"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_VhZFMIpHEeab18FrkH3UfA" name="female"/>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_YipiQInwEeab18FrkH3UfA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_YirXcInwEeab18FrkH3UfA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>

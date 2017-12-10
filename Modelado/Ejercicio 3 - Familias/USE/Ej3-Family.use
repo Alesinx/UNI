@@ -1,0 +1,100 @@
+model Family
+
+enum Gender {female, male}
+
+class Person
+attributes
+  name : String
+  age : Integer
+  gender : Gender
+operations
+  spouse():Person    = if self.motherFamily->isEmpty() then self.fatherFamily.mother 
+                       else self.motherFamily.father endif
+  
+  kids():Set(Person) = if self.motherFamily->isEmpty() then 
+                          if self.fatherFamily->isEmpty() then Set{} 
+                          else self.fatherFamily.child endif
+                       else self.motherFamily.child endif
+
+  grandParents():Set(Person) = Set{}->including(self.childFamily.father.childFamily.father)->
+                               including(self.childFamily.father.childFamily.mother)->
+                               including(self.childFamily.mother.childFamily.mother)->
+                               including(self.childFamily.mother.childFamily.mother)->
+                               excluding(Undefined) 
+
+-- EXERCISE. Specify operation "surname":
+-- surname():String = 
+end
+
+class Family
+attributes
+  surname : String
+end
+
+association Father between
+  Person[0..1] role father
+  Family[0..1] role fatherFamily
+end
+
+association Mother between
+  Person[0..1] role mother
+  Family[0..1] role motherFamily
+end
+
+association Child between
+  Person[0..*] role child
+  Family[0..1] role childFamily
+end
+
+association Uncle between
+  Person[0..*] role uncle
+  Family[0..*] role uncleFamily
+end
+
+association Aun between
+  Person[0..*] role aunt
+  Family[0..*] role auntFamily
+end
+
+association Grandfather between
+  Person[0..2] role Grandfather
+  Family[0..*] role grandfatherFamily
+end
+
+association Grandmother between
+  Person[0..2] role Grandmother
+  Family[0..*] role grandmotherFamily
+end
+
+association Cousin between
+  Person[0..*] role Cousin
+  Family[0..*] role cousinFamily
+end
+
+
+constraints
+
+context Person inv FatherOrMother:
+   self.fatherFamily->size() + self.motherFamily->size() <=1
+
+context Person inv NotWOFamily:
+  self.fatherFamily->size() + self.motherFamily->size() + self.childFamily->size() > 0
+
+context Family inv AtLeastOneMember:
+    self.father->size() + self.mother->size() + self.child->size() > 0
+
+context Family inv childrenOlderThanParents:
+  self.child->forAll(c|(self.father->notEmpty implies self.father.age>c.age) and (self.mother->notEmpty implies self.mother.age>c.age))    
+
+-- Instead of an invariant, "Traditional" can be an operation "isTraditional():Boolean"
+
+context Family inv Traditional: 
+   (self.father->notEmpty implies self.father.gender=Gender::male) and
+   (self.mother->notEmpty implies self.mother.gender=Gender::female)
+
+context Family inv UniqueNamesWithinAFamily:
+   let members : Set(Person) = Set{}->union(self.child)
+                                    ->including(self.father)
+                                    ->including(self.mother)->excluding(Undefined) 
+   in (members->collect(name)->asSet()->size()) = (members->size())
+
